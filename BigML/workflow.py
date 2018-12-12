@@ -31,6 +31,7 @@ api.ok(model)
 
 ### You can call the model from 1. API 2. local model
 
+
 # 1. This is for one input data
 input_data = {"petal width": 1.75, "petal length": 2.45}
 prediction = api.create_prediction(model, input_data)
