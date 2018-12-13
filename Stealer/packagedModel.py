@@ -90,7 +90,7 @@ class torchModel(object):
             if acc_his : plt.plot(acc_his)
 
             plt.xlabel("epoch")
-            plot.show()
+            plt.show()
 
     def getNWeight(self) :
         result = 0
