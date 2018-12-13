@@ -10,7 +10,7 @@ x_train, y_train = datasets.getTrainedIris()
 #         ("Linear", (5,3)), \
 #         ("Softmax", 1)]
 
-layers = [("Linear", (5,2)), \
+layers = [("Linear", (4,2)), \
         ("ReLU", ()), \
         ("Linear", (2,3)), \
         ("Softmax", 1)]

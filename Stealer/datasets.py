@@ -39,3 +39,37 @@ def getTrainedIris() :
         y.append(y_temp)
 
     return np.array(x), np.array(y)
+
+def getIncome() :
+    with open("../BigML/data/predict_result/income/API_result/probabilities.txt") as f :
+        data = f.read()
+
+    data = data.replace("\'", "\"").replace("None", "0")
+    data = json.loads(data)
+
+    x, y = [], []
+
+    table = dict()
+
+    for oneData in data :
+        x_temp, y_temp = [], []
+
+        for key, value in oneData.items() :
+
+            if key == "probability" : 
+                for name, prob in value.items() : y_temp.append(float(prob) )
+
+            else :
+                try:
+                    x_temp.append(float(value) )
+                except ValueError:
+                    
+                    if key not in table : table[key] = dict() 
+                    if value not in table[key] : table[key][value] = float(len(table[key]))
+
+                    x_temp.append(table[key][value])
+
+        x.append(x_temp)
+        y.append(y_temp)
+
+    return np.array(x), np.array(y)
