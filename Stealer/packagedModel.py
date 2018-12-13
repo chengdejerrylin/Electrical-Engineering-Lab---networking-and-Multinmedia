@@ -7,11 +7,14 @@ class torchModel(object):
 
     def __init__(self, model = [], optim = "Adam", loss_func = "binary_cross_entropy", optimArgs = dict()):
         
+        self.optimClass = getattr(t.optim, optim)
+        self.optimArgs = optimArgs 
+
         if model :
             self.model = self._getModel(model)
-            self.optim = getattr(t.optim, optim)( self.model.parameters(), **optimArgs)
+            self.optim = self.optimClass( self.model.parameters(), **optimArgs)
             if use_cuda : self.model = self.model.cuda()
-        
+
         try:
             self.loss_func = getattr(t.nn, loss_func)()
             if use_cuda : self.loss = self.loss.cuda()
@@ -78,9 +81,10 @@ class torchModel(object):
         self.model.load_state_dict(t.load(path))
         if use_cuda : self.model = self.model.cuda()
 
-        self.optim = getattr(t.optim, optim)( self.model.parameters(), **self.optimArgs)
+        self.optim = self.optimClass(self.model.parameters(), **self.optimArgs)
 
     def _getModel(self, layers):
+
         try:
             
             result = []
