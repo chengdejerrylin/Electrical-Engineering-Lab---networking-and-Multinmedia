@@ -74,7 +74,7 @@ def test_online_model(model_name):
     ### Batch prediction
     # batch_prediction = api.create_batch_prediction('model/{}'.format(models[model_name]), test_dataset, {"all_fields": True})
     # api.ok(batch_prediction)
-    # # print(batch_prediction)
+    # print(batch_prediction)
     # api.pprint(batch_prediction)
 
     # predict_result = local_model.predict({"petal length": 2.45, "sepal length": 2})

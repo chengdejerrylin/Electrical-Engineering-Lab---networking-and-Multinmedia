@@ -5,7 +5,8 @@
 
 models = {
     'Telephony_Churn':   "5c0f30fc8ad5244dc8002ffe",
-    'iris':      "5c11c78052996370340148d5"    # iris dataset
+    'iris':      "5c120b857811dd115b00ffdf",    # iris dataset
+    'income':    "5c11d963c7736e2d26014b73"
     # 'election':  "50a7a9d4035d0706dc0004e8",    # white-box elections
     # 'cars':      "50f2d9cb3b56354d2c0002d2",    # car-crash
     # 'military':  "54467d0b99fca41102000e83",    # military-gear
