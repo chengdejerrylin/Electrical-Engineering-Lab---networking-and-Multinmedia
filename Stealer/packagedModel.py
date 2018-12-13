@@ -27,9 +27,22 @@ class torchModel(object):
     def predict(self, x, xType = "") :
         return self.model(self._inputTransform(x, xType)).detach().numpy()
 
-    def train(self, x_train, y_train, epoch = 1000 , batch = 500, xType = "", yType = "") :
+    def train(self, x_train, y_train, epoch = 1000 , batch = 500, xType = "", yType = "", printPerEpoch = 1) :
         x, y = self._inputTransform(x_train, xType), self._inputTransform(y_train, yType)
         nTrain = x.size()[0]
+
+        #test type
+        mask = [0, 1]
+        y_test = self.model(x[mask])
+        try:
+            loss = self.loss_func(y_test, y[mask])
+        except Exception as e:
+            y = self._inputTransform(y_train, yType, False)
+
+        print("training model...")
+        print("Epoch:", epoch, ",Training_data_size:", nTrain, ",Batch_size:", batch)
+        print("optimizer:", self.optim)
+        print("loss_function:", self.loss_func, end="\n\n")
 
         for e in range(epoch) :
             for b in range(nTrain // batch) :
@@ -45,7 +58,8 @@ class torchModel(object):
                 loss.backward()
                 self.optim.step()
 
-            print("Epoch:", e+1, ",loss:", float(loss.detach()), ",Accuracy:", self.getAccuracy(x_train, y_train))
+            if (e+1) % printPerEpoch == 0 :
+                print("Epoch:", e+1, ",loss:", float(loss.detach()), ",Accuracy:", self.getAccuracy(x_batch, y_batch))
 
     def getNWeight(self) :
         result = 0
@@ -86,19 +100,27 @@ class torchModel(object):
         except Exception as e:
             return layers
 
-    def _inputTransform(self, x, xType) :
+    def _inputTransform(self, x, xType = "", to2D = True) :
 
         result = x
         if type(result) != type(t.tensor([0])) : 
             
             if type(result) == type([]) : result = np.array(result) #list to numpy
-            if len(np.shape(result)) == 1 : result = np.array([result]) #1d to 2d
+            if to2D : #1d to 2d
+                #if len(np.shape(result)) == 1 : result = np.array([result]) 
+                if len(np.shape(result)) == 1 : result = np.array([ [i] for i in result])
 
             #numpy to tensor
             temp = np.array(result)
             result = t.from_numpy(result)
             if use_cuda : result.cuda()
-            if type(temp[0][0]) == type(np.array([0.1])[0]) : result = result.float() # float64 to float
+
+            # float64 to float
+            try:
+                if type(temp[0][0]) == type(np.array([0.1])[0]) : result = result.float() 
+            except Exception as e:
+                if type(temp[0]) == type(np.array([0.1])[0]) : result = result.float()
+            
 
             #change type
             if xType : result = getattr(result, xType)()
@@ -106,6 +128,7 @@ class torchModel(object):
         return result
 
     def getAccuracy(self, x, y) : return -1
+    def getAccuracyFromProb(self, x, y) : return -1
 
 class classifyModel(torchModel):
     """docstring for ClassifyModel"""
@@ -113,7 +136,14 @@ class classifyModel(torchModel):
         super(classifyModel, self).__init__(layers, optim, loss_func, optimArgs)
 
     def getAccuracy(self, x, y) :
+        
         x, y = self._inputTransform(x), self._inputTransform(y)
         y_pred = t.max(self.model(x),1)[1]
-        return (y_pred==y).sum().item()/y.shape[0]
+
+        try: # y = index of answer
+            return (y_pred==y).sum().item()/y.shape[0]
+
+        except Exception as e: # y = prob of classes
+            y = t.max(y,1)[1]
+            return (y_pred==y).sum().item()/y.shape[0]
         

@@ -10,12 +10,13 @@ layers = [("Linear", (5,5)), \
         ("Linear", (5,3)), \
         ("Softmax", 1)]
 
-model = pack.torchModel(layers, loss_func="MSELoss", optimArgs = {"lr" : 1e-3})
-model.train(x_train, y_train, epoch=100, batch = 3)
-model.save("iris.model")
+# layers = [("Linear", (5,3)), \
+#         ("ReLU", ()), \
+#         ("Linear", (3,3)), \
+#         ("Softmax", 1)]
 
-for i in range(len(x_train)) :
-	print()
-	print("data", i+1)
-	print("predict  :", model.predict(x_train[i])[0])
-	print("actually :", y_train[i])
+
+model = pack.classifyModel(layers, loss_func="MSELoss", optimArgs = {"lr" : 1e-6} )
+model.train(x_train, y_train, epoch=500, batch = len(x_train)//4, printPerEpoch = 50)
+model.save("iris.model")
+print(model.getAccuracy(x_train, y_train))
