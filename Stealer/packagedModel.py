@@ -35,7 +35,7 @@ class torchModel(object):
     def predict(self, x, xType = "") :
         return self.model(self._inputTransform(x, xType)).detach().numpy()
 
-    def train(self, x_train, y_train, epoch = 1000 , batch = 500, xType = "", yType = "", printPerEpoch = 1) :
+    def train(self, x_train, y_train, epoch = 1000 , batch = 500, xType = "", yType = "", printPerEpoch = 1, printAcc = True) :
         x, y = self._inputTransform(x_train, xType), self._inputTransform(y_train, yType)
         nTrain = x.size()[0]
 
@@ -78,10 +78,10 @@ class torchModel(object):
             if plt is not None : loss_his.append(numLoss)
             if acc != -1 :
                 if plt is not None : acc_his.append(acc)
-                if (e+1) % printPerEpoch == 0 :
+                if printPerEpoch > 0 and (e+1) % printPerEpoch == 0 and printAcc :
                     print("Epoch:", e+1, ",loss:", float(loss.detach()), ",Accuracy:", self.getAccuracy(x_batch, y_batch))
             else :
-                if (e+1) % printPerEpoch == 0 :
+                if printPerEpoch > 0 and (e+1) % printPerEpoch == 0 and printAcc :
                     print("Epoch:", e+1, ",loss:", float(loss.detach()))
 
         #plot
@@ -172,15 +172,19 @@ class classifyModel(torchModel):
     def __init__(self, layers = [], optim = "Adam", loss_func = "CrossEntropyLoss", optimArgs = dict()):
         super(classifyModel, self).__init__(layers, optim, loss_func, optimArgs)
 
-    def getAccuracy(self, x, y) :
+    def getAccuracy(self, x, y_ori) :
         
-        x, y = self._inputTransform(x), self._inputTransform(y)
+        x, y = self._inputTransform(x), self._inputTransform(y_ori, to2D = False)
         y_pred = t.max(self.model(x),1)[1]
 
         try: # y = index of answer
-            return (y_pred==y).sum().item()/y.shape[0]
+            ans = (y_pred==y).sum().item()/y.shape[0]
+            for i in range(len(y_pred)) :
+                print(y_pred[i], y[i])
+            return ans 
 
         except Exception as e: # y = prob of classes
+            y = self._inputTransform(y_ori)
             y = t.max(y,1)[1]
             return (y_pred==y).sum().item()/y.shape[0]
         
