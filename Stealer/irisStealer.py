@@ -11,7 +11,7 @@ x_test, y_test = datasets.getIris()
 #         ("Linear", (5,3)), \
 #         ("Softmax", 1)]
 
-layers = [("Linear", (4,2)), \
+layers = [("Linear", (5,2)), \
         ("ReLU", ()), \
         ("Linear", (2,3)), \
         ("Softmax", 1)]
