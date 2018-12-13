@@ -41,49 +41,33 @@ def test_online_model(model_name):
     test_dataset = api.create_dataset(test_source)
     api.ok(test_dataset)
     print("Start predicting .... ")
-    print("    Opening testing data")
-    training_data_path = os.path.join(DATASET_STORAGE, model_name, model_name) + "_test.csv"
-    with open(training_data_path) as test_handler:
-        reader = csv.DictReader(test_handler)
-        counter = 1
-        for input_data in reader:
-            print("=================================")
-            print("=====  Prediction ", counter, "  ========")
-            print("=================================")
-            print("Input testing data : ", input_data)
-            predict_result = api.create_prediction('model/{}'.format(models[model_name]), input_data)
-            print(">> Prediction : ", predict_result, "\n")
-            # predict_pprint
-            counter = counter + 1
     ## File conversion: Extract confidence
-    path_API = os.path.join(PREDICT_STORAGE, model_name, "API_result")
-    predictions = glob.glob(os.path.join(path_API, "prediction*"))
-    big_array = []
-    with open(os.path.join(path_API, "probabilities.txt"), 'a') as fh:
-        for prediction in predictions:
-            with open(prediction, 'r') as pf:
-                j = json.loads(pf.read())
-                input_dictionary = j["object"]["input_data"]
-                dic = {}
-                for each_answer in j["object"]["probabilities"]:
-                    dic[each_answer[0]] = each_answer[1]
-                input_dictionary["probability"] = dic
-                big_array.append(input_dictionary)
-                print("Wrting to file >> ", input_dictionary)
-        fh.write(str(big_array))
+    # predictions = glob.glob(os.path.join(path_API, "prediction*"))
+    # big_array = []
+    # with open(os.path.join(path_API, "probabilities.txt"), 'a') as fh:
+    #     for prediction in predictions:
+    #         with open(prediction, 'r') as pf:
+    #             j = json.loads(pf.read())
+    #             input_dictionary = j["object"]["input_data"]
+    #             dic = {}
+    #             for each_answer in j["object"]["probabilities"]:
+    #                 dic[each_answer[0]] = each_answer[1]
+    #             input_dictionary["probability"] = dic
+    #             big_array.append(input_dictionary)
+    #             print("Wrting to file >> ", input_dictionary)
+    #     fh.write(str(big_array))
     ### Batch prediction
     batch_prediction = api.create_batch_prediction('model/{}'.format(models[model_name]), test_dataset, {"all_fields": True})
-    api.ok(batch_prediction)
-    print(batch_prediction)
-    api.pprint(batch_prediction)
+    # api.ok(batch_prediction)
+    # api.download_batch_anomaly_score(batch_prediction, filename="REQUEST_STORAGE")
 
-    predict_result = local_model.predict({"petal length": 2.45, "sepal length": 2})
-    Write read
-    print(predict_result)
-    batch_prediction = api.create_batch_prediction(local_model, test_dataset, {"all_fields": True})
+    # predict_result = local_model.predict({"petal length": 2.45, "sepal length": 2})
+    # Write read
+    # print(predict_result)
+    # batch_prediction = api.create_batch_prediction(local_model, test_dataset, {"all_fields": True})
 
     api.ok(batch_prediction)
-    api.download_batch_anomaly_score(batch_prediction, filename=os.path.join(predict_storage, model_name + "results"))
+    api.download_batch_anomaly_score(batch_prediction, filename=os.path.join(predict_storage, model_name + "_results"))
 
 
 if __name__ == "__main__":
