@@ -1,11 +1,15 @@
 import torch as t 
 import numpy as np
+try:
+    import matplotlib.pyplot as plt
+except:
+    plt = None
 
 use_cuda = t.cuda.is_available()
 
 class torchModel(object):
 
-    def __init__(self, model = [], optim = "Adam", loss_func = "binary_cross_entropy", optimArgs = dict()):
+    def __init__(self, model = [], optim = "Adam", loss_func = "MSELoss", optimArgs = dict()):
         
         self.optimClass = getattr(t.optim, optim)
         self.optimArgs = optimArgs 
@@ -14,6 +18,7 @@ class torchModel(object):
             self.model = self._getModel(model)
             self.optim = self.optimClass( self.model.parameters(), **optimArgs)
             if use_cuda : self.model = self.model.cuda()
+            self.model.apply(self._init_weights)
 
         try:
             self.loss_func = getattr(t.nn, loss_func)()
@@ -42,6 +47,11 @@ class torchModel(object):
         except Exception as e:
             y = self._inputTransform(y_train, yType, False)
 
+        #plot
+        if plt is not None :
+            loss_his = []
+            acc_his = []
+
         print("training model...")
         print("Epoch:", epoch, ",Training_data_size:", nTrain, ",Batch_size:", batch)
         print("optimizer:", self.optim)
@@ -61,8 +71,26 @@ class torchModel(object):
                 loss.backward()
                 self.optim.step()
 
-            if (e+1) % printPerEpoch == 0 :
-                print("Epoch:", e+1, ",loss:", float(loss.detach()), ",Accuracy:", self.getAccuracy(x_batch, y_batch))
+            # print
+            numLoss = float(loss.detach())
+            acc = self.getAccuracy(x_batch, y_batch)
+
+            if plt is not None : loss_his.append(numLoss)
+            if acc != -1 :
+                if plt is not None : acc_his.append(acc)
+                if (e+1) % printPerEpoch == 0 :
+                    print("Epoch:", e+1, ",loss:", float(loss.detach()), ",Accuracy:", self.getAccuracy(x_batch, y_batch))
+            else :
+                if (e+1) % printPerEpoch == 0 :
+                    print("Epoch:", e+1, ",loss:", float(loss.detach()))
+
+        #plot
+        if plt is not None :
+            plt.plot(loss_his)
+            if acc_his : plt.plot(acc_his)
+
+            plt.xlabel("epoch")
+            plot.show()
 
     def getNWeight(self) :
         result = 0
@@ -82,6 +110,9 @@ class torchModel(object):
         if use_cuda : self.model = self.model.cuda()
 
         self.optim = self.optimClass(self.model.parameters(), **self.optimArgs)
+
+    def getAccuracy(self, x, y) : return -1
+    def getAccuracyFromProb(self, x, y) : return -1
 
     def _getModel(self, layers):
 
@@ -131,8 +162,10 @@ class torchModel(object):
 
         return result
 
-    def getAccuracy(self, x, y) : return -1
-    def getAccuracyFromProb(self, x, y) : return -1
+    def _init_weights(self, m):
+        if type(m) == t.nn.Linear:
+            t.nn.init.xavier_normal(m.weight)
+            m.bias.data.fill_(0.01)
 
 class classifyModel(torchModel):
     """docstring for ClassifyModel"""

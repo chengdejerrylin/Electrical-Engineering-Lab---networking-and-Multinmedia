@@ -19,7 +19,7 @@ layers = [("Linear", (5,2)), \
 #         ("Softmax", 1)]
 
 model = pack.classifyModel(layers, loss_func="BCELoss", optimArgs = {"lr" : 1e-3} )
-model.train(x_train, y_train, epoch=2000, batch = len(x_train)//2, printPerEpoch=100)
+model.train(x_train, y_train, epoch=1000, batch = len(x_train)//2, printPerEpoch=50)
 model.save("iris.model")
 print(model.getAccuracy(x_train, y_train))
 
