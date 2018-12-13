@@ -24,19 +24,19 @@ class torchModel(object):
 
         self.optimArgs = optimArgs
 
-    def predict(self, x) :
-        return self.model(self._inputTransform(x)).detach().numpy()
+    def predict(self, x, xType = "") :
+        return self.model(self._inputTransform(x, xType)).detach().numpy()
 
-    def train(self, x_train, y_train, epoch = 1000 , batch = 500) :
-        x, y = self._inputTransform(x_train), self._inputTransform(y_train)
+    def train(self, x_train, y_train, epoch = 1000 , batch = 500, xType = "", yType = "") :
+        x, y = self._inputTransform(x_train, xType), self._inputTransform(y_train, yType)
         nTrain = x.size()[0]
 
         for e in range(epoch) :
             for b in range(nTrain // batch) :
                 #batch and predict
-                mask = np.random.choice(nTrain, batch )
+                mask = np.random.choice(nTrain, batch , replace=False)
                 x_batch, y_batch = x[mask], y[mask]
-                y_pred = self.model(x[mask])
+                y_pred = self.model(x_batch)
 
                 #loss and feedback
                 loss = self.loss_func(y_pred , y_batch)
@@ -75,30 +75,42 @@ class torchModel(object):
                 try:
                     result.append( getattr(t.nn, l[0])(*l[1]) )
                 except Exception as e:
-                    result.append( getattr(t.nn, l[0])( l[1]) )
+                    try:
+                        result.append( getattr(t.nn, l[0])( l[1]) )
+                    except Exception as e:
+                        result.append( getattr(t.nn, l[0])( **l[1]) )
+                
 
             return t.nn.Sequential(*result)
 
         except Exception as e:
             return layers
 
-    def _inputTransform(self, x) :
+    def _inputTransform(self, x, xType) :
 
         result = x
         if type(result) != type(t.tensor([0])) : 
             
-            if type(result) == type([]) : result = np.array(result)
+            if type(result) == type([]) : result = np.array(result) #list to numpy
+            if len(np.shape(result)) == 1 : result = np.array([result]) #1d to 2d
+
+            #numpy to tensor
+            temp = np.array(result)
             result = t.from_numpy(result)
             if use_cuda : result.cuda()
+            if type(temp[0][0]) == type(np.array([0.1])[0]) : result = result.float() # float64 to float
+
+            #change type
+            if xType : result = getattr(result, xType)()
 
         return result
 
     def getAccuracy(self, x, y) : return -1
 
-class ClassifyModule(torchModel):
-    """docstring for ClassifyModule"""
+class classifyModel(torchModel):
+    """docstring for ClassifyModel"""
     def __init__(self, layers = [], optim = "Adam", loss_func = "CrossEntropyLoss", optimArgs = dict()):
-        super(ClassifyModule, self).__init__(layers, optim, loss_func, optimArgs)
+        super(classifyModel, self).__init__(layers, optim, loss_func, optimArgs)
 
     def getAccuracy(self, x, y) :
         x, y = self._inputTransform(x), self._inputTransform(y)
