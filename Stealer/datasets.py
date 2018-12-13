@@ -17,31 +17,13 @@ def getIris():
     return datasets.load_iris(True)
 
 def getTrainedIris() :
-    with open("../BigML/data/predict_result/iris/API_result/probabilities.txt") as f :
-        data = f.read()
-
-    data = data.replace("\'", "\"").replace("None", "0")
-    data = json.loads(data)
-
-    x, y = [], []
-
-    for oneData in data :
-        x_temp, y_temp = [], []
-
-        for key, value in oneData.items() :
-
-            if key == "probability" : 
-                for name, prob in value.items() : y_temp.append(float(prob) )
-
-            else : x_temp.append(float(value) )
-
-        x.append(x_temp)
-        y.append(y_temp)
-
-    return np.array(x), np.array(y)
+    return getDataFromProbabilityTxt("../BigML/data/predict_result/iris/API_result/probabilities.txt")
 
 def getIncome() :
-    with open("../BigML/data/predict_result/income/API_result/probabilities.txt") as f :
+    return getDataFromProbabilityTxt("../BigML/data/predict_result/income/API_result/probabilities.txt")
+    
+def getDataFromProbabilityTxt(path) :
+    with open(path) as f :
         data = f.read()
 
     data = data.replace("\'", "\"").replace("None", "0")

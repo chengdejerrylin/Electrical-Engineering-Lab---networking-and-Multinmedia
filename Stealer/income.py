@@ -21,5 +21,5 @@ layers = [("Linear", (15,7)), \
 model = pack.classifyModel(layers, loss_func="BCELoss", optimArgs = {"lr" : 1e-4} )
 model.train(x_train, y_train, epoch=1000, batch = 50, printPerEpoch=50)
 model.save("income.model")
-print(model.getAccuracy(x_train, y_train))
+print(model.getAccuracy(x_train, y_train), model.getNWeight())
 
