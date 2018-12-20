@@ -142,8 +142,8 @@ class torchModel(object):
             
             if type(result) == type([]) : result = np.array(result) #list to numpy
             if to2D : #1d to 2d
-                #if len(np.shape(result)) == 1 : result = np.array([result]) 
-                if len(np.shape(result)) == 1 : result = np.array([ [i] for i in result])
+                if len(np.shape(result)) == 1 : result = np.array([result]) 
+                #if len(np.shape(result)) == 1 : result = np.array([ [i] for i in result])
 
             #numpy to tensor
             temp = np.array(result)
