@@ -7,7 +7,7 @@ import sklearn.datasets as datasets
 import numpy as np
 import pickle, gzip
 import json
-import packagedModel
+import packagedModel as pack
 
 def getAbsPath(path) :
     return os.path.join(os.path.dirname(os.path.abspath(__file__)), path)
@@ -67,6 +67,6 @@ def getDataFromProbabilityTxt(path) :
 
 def getMnistModel() :
     import pretrain_mnist as mnist
-    result = classifyModel(mnist.layers)
+    result = pack.classifyModel(mnist.layers)
     result.load(getAbsPath("pre_model/mnist.model"))
     return result

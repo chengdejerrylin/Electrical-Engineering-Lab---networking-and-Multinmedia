@@ -21,9 +21,10 @@ layers = [("Linear", (784,100)), \
 epoch = 10
 batch = 100
 
+if __name__ == '__main__':
 
-model = pack.classifyModel(layers, loss_func="CrossEntropyLoss", optimArgs = {"lr" : 5e-5})
-model.train(x_train, y_train, epoch, batch)
-model.save(os.path.join(os.path.dirname(os.path.abspath(__file__)), "mnist.model"))
+    model = pack.classifyModel(layers, loss_func="CrossEntropyLoss", optimArgs = {"lr" : 5e-5})
+    model.train(x_train, y_train, epoch, batch)
+    model.save(os.path.join(os.path.dirname(os.path.abspath(__file__)), "mnist.model"))
 
-print(model.getAccuracy(x_test, y_test))
+    print(model.getAccuracy(x_test, y_test))

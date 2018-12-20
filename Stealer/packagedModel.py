@@ -164,7 +164,7 @@ class torchModel(object):
 
     def _init_weights(self, m):
         if type(m) == t.nn.Linear:
-            t.nn.init.xavier_normal(m.weight)
+            t.nn.init.xavier_normal_(m.weight)
             m.bias.data.fill_(0.01)
 
 class classifyModel(torchModel):
