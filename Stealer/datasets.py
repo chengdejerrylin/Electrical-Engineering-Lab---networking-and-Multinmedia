@@ -1,14 +1,23 @@
+import os
+import os.path
+import sys
+sys.path.insert(1, os.path.join(os.path.dirname(os.path.abspath(__file__)), "pre_model") )
+
 import sklearn.datasets as datasets
 import numpy as np
 import pickle, gzip
 import json
+import packagedModel
+
+def getAbsPath(path) :
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), path)
 
 def getCircles(size):
     X, y = datasets.make_circles(size, factor=.5, noise=.05)
     return X, [ [i] for i in y]
 
 def getMnist():
-    f = gzip.open('mnist.pkl.gz','rb')
+    f = gzip.open(getAbsPath('mnist.pkl.gz'),'rb')
     train_set, valid_set, test_set = pickle.load(f,encoding='unicode-escape')
     f.close()
     return train_set[0], train_set[1], test_set[0], test_set[1]
@@ -23,7 +32,7 @@ def getIncome() :
     return getDataFromProbabilityTxt("../BigML/data/predict_result/income/API_result/probabilities.txt")
     
 def getDataFromProbabilityTxt(path) :
-    with open(path) as f :
+    with open(getAbsPath(path)) as f :
         data = f.read()
 
     data = data.replace("\'", "\"").replace("None", "0")
@@ -55,3 +64,9 @@ def getDataFromProbabilityTxt(path) :
         y.append(y_temp)
 
     return np.array(x), np.array(y)
+
+def getMnistModel() :
+    import pretrain_mnist as mnist
+    result = classifyModel(mnist.layers)
+    result.load(getAbsPath("pre_model/mnist.model"))
+    return result

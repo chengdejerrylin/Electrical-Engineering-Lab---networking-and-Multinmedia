@@ -179,8 +179,6 @@ class classifyModel(torchModel):
 
         try: # y = index of answer
             ans = (y_pred==y).sum().item()/y.shape[0]
-            for i in range(len(y_pred)) :
-                print(y_pred[i], y[i])
             return ans 
 
         except Exception as e: # y = prob of classes

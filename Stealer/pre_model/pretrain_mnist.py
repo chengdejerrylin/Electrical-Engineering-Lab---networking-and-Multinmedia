@@ -1,3 +1,9 @@
+import os
+import os.path
+import sys
+sys.path.insert(1, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..") )
+
+
 import packagedModel as pack
 import datasets
 import numpy as np
@@ -18,7 +24,6 @@ batch = 100
 
 model = pack.classifyModel(layers, loss_func="CrossEntropyLoss", optimArgs = {"lr" : 5e-5})
 model.train(x_train, y_train, epoch, batch)
-model.save("minst.model")
+model.save(os.path.join(os.path.dirname(os.path.abspath(__file__)), "mnist.model"))
 
-mask = np.random.choice(len(x_train), batch, replace = False)
-print(model.getAccuracy(x_train, y_train))
+print(model.getAccuracy(x_test, y_test))
