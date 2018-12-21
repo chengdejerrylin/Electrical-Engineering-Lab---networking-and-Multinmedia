@@ -1,0 +1,4 @@
+BigML/mnist.pkl.gz
+BigML/data/datasets/MNIST/MNIST_test.csv
+BigML/data/datasets/MNIST/MNIST_train.csv
+BigML/data/predict_result/MNIST/MNIST_results
