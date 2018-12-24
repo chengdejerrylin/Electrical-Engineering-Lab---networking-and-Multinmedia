@@ -7,7 +7,7 @@ import numpy as np
 import datasets
 import packagedModel as pack
 
-nTrain = 10000
+nTrain = 500
 epoch = 100
 nBatch = nTrain//5
 
