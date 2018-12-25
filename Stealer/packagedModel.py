@@ -35,8 +35,8 @@ class torchModel(object):
     def predict(self, x, xType = "") :
         return self.model(self._inputTransform(x, xType)).detach().numpy()
 
-    def train(self, x_train, y_train, epoch = 1000 , batch = 500, xType = "", yType = "", printPerEpoch = 1, printAcc = True) :
-        x, y = self._inputTransform(x_train, xType), self._inputTransform(y_train, yType)
+    def train(self, x_train, y_train, epoch = 1000 , batch = 500, xType = "", yType = "", printPerEpoch = 1, printAcc = True, yTo2D = True) :
+        x, y = self._inputTransform(x_train, xType), self._inputTransform(y_train, yType, yTo2D)
         nTrain = x.size()[0]
 
         #test type
