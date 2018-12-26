@@ -41,7 +41,10 @@ def test_online_model(model_name):
     test_dataset = api.create_dataset(test_source)
     api.ok(test_dataset)
     print("Start predicting .... ")
-    batch_prediction = api.create_batch_prediction('model/{}'.format(models[model_name]), test_dataset, {"all_fields": True, "probabilities": True})
+    if which_model == "DT":
+        batch_prediction = api.create_batch_prediction('model/{}'.format(models[model_name]), test_dataset, {"all_fields": True, "probabilities": True})
+    elif which_model == "DN":
+        batch_prediction = api.create_batch_prediction('deepnet/{}'.format(models[model_name]), test_dataset, {"all_fields": True, "probabilities": True})
     api.ok(batch_prediction)
     print(batch_prediction)
     api.download_batch_prediction(batch_prediction, filename=os.path.join(predict_storage, model_name + "_results"))
@@ -51,4 +54,5 @@ def test_online_model(model_name):
 if __name__ == "__main__":
     main()
     model_name = input('Enter a model name: ')
+    which_model = input('Which model are u going to predict (Decision tree / Deepnet)? ')
     test_online_model(model_name)

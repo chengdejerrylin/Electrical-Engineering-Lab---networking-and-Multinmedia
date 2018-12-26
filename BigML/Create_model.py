@@ -36,12 +36,20 @@ def model_creation(model_name, local_or_online):
         dataset = api.create_dataset(source)
         api.ok(dataset)
         print("Model creating .... ")
-        model = api.create_model(dataset)
+        if which_model == "D":
+            model = api.create_model(dataset)
+        elif which_model == "E":
+            model = api.create_ensemble(dataset)
+        elif which_model == "DN":
+            model = api.create_deepnet(dataset)
+        elif which_model == "A":
+            model = api.create_association(dataset)
+        else:
+            print("Your input model is invalid, byebye!!!")
+            sys.exit()
         api.ok(model)
         print("Model is created ! DONE !!")
         print(">> model name : ", model_name, "  model id : ", model["resource"])
-
-
     elif local_or_online == "O":
         #### DOWNLOAD MODEL
         print("Download model from API .... ")
@@ -53,4 +61,5 @@ if __name__ == "__main__":
     main()
     model_name = input('Enter a model name: ')
     local_or_online = input('Local or online (L/O)?')
+    which_model = input('Which model (Decison_tree / Ensemble / Logistic_regression / Association_model)?')
     model_creation(model_name, local_or_online)

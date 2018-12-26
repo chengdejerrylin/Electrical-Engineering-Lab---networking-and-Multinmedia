@@ -7,7 +7,9 @@ models = {
     'Telephony_Churn':   "5c0f30fc8ad5244dc8002ffe",
     'iris':      "5c123be15299637034014c3d",    # iris dataset
     'income':    "5c11d963c7736e2d26014b73",
-    'MNIST':    "5c1bc97152996305d3000f30"
+    'MNIST':    "5c235df4529963147b016a71",
+    'iris_deepnet': "5c234e58529963147b0169bc",
+    'MNIST_deepnet': "5c235f46c7736e4a88016959"
     # 'election':  "50a7a9d4035d0706dc0004e8",    # white-box elections
     # 'cars':      "50f2d9cb3b56354d2c0002d2",    # car-crash
     # 'military':  "54467d0b99fca41102000e83",    # military-gear
