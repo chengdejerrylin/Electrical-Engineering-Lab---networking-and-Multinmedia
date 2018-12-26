@@ -8,6 +8,7 @@ import numpy as np
 import pickle, gzip
 import json
 import packagedModel as pack
+import csv
 
 def getAbsPath(path) :
     return os.path.join(os.path.dirname(os.path.abspath(__file__)), path)
@@ -70,3 +71,40 @@ def getMnistModel() :
     result = pack.classifyModel(mnist.layers)
     result.load(getAbsPath("pre_model/mnist.model"))
     return result
+
+def getBigML(model_name) :
+    if model_name == "MNIST" or model_name == "MNIST_deepnet":
+        input_number = 784
+        output_category = 10
+    elif model_name == "iris" or model_name == "iris_deepnet":
+        input_number = 4
+        output_category = 3
+
+
+    with open(getAbsPath("../BigML/data/predict_result/" + model_name + "/" + model_name + "_results")) as readcsv :
+        read_file = csv.reader(readcsv, delimiter=',')
+
+        input_list = []
+        answer_list = []
+        output_list = []
+
+        output_order = []
+        title = True
+
+        for row in read_file:
+            if title :
+                for i in range(input_number+1, input_number+1+output_category) :
+                    output_order.append(int(row[i][1]))
+
+                title = False
+            else :
+                temp = []
+                for i in range(output_category) : temp.append(0)
+                input_list.append( [float(data) for data in row[0:input_number] ] )
+                answer_list.append(int(row[input_number][1]))
+                for i in range(output_category) :
+                    temp[output_order[i]] = float(row[input_number+1+i])
+
+                output_list.append(temp)
+
+        return input_list, answer_list, output_list

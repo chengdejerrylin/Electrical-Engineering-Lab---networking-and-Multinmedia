@@ -6,18 +6,17 @@ import packagedModel as pack
 
 nTrain = 200
 epoch = 100
-nBatch = 25
+nBatch = 50
 pPerEpoch = 10
+trainTestRatio = .8
 
-print("\n======================== pretrained model========================")
-pre_model = datasets.getMnistModel()
-print(pre_model.model)
+x, y, y_prob = datasets.getBigML("MNIST_deepnet")
+x, y, y_prob = np.array(x), np.array(y), np.array(y_prob)
 
-x_train, y_train , x_test, y_test = datasets.getMnist()
-mask = np.random.choice(x_train.shape[0], nTrain , replace=False)
-x_train = x_train[mask]
-y_train = y_train[mask]
-y_value = pre_model.predict(x_train)
+boundary = int(len(x)*trainTestRatio)
+mask = np.random.choice(boundary, nTrain , replace=False)
+x_train, y_train, y_value = x[mask], y[mask], y_prob[mask]
+x_test, y_test = x[boundary:], y[boundary:]
 
 layers = [("Linear", (784,100)), \
         ("ReLU", ()), \
@@ -30,13 +29,13 @@ layers = [("Linear", (784,100)), \
 print("\n======================== origin model ========================")
 origin = pack.classifyModel(layers, optimArgs = {"lr" : 5e-5})
 origin.train(x_train, y_train, epoch, nBatch, printPerEpoch=pPerEpoch, yType = "long", yTo2D = False)
-origin.save(os.path.join(os.path.dirname(os.path.abspath(__file__)), "model/origin_mnist.model"))
+origin.save(os.path.join(os.path.dirname(os.path.abspath(__file__)), "model/origin_mnist_BigML.model"))
 
 #copy model
 print("\n======================== copy model ========================")
 copy = pack.classifyModel(layers, loss_func="BCELoss", optimArgs = {"lr" : 5e-5})
 copy.train(x_train, y_value, epoch, nBatch, printPerEpoch=pPerEpoch)
-copy.save(os.path.join(os.path.dirname(os.path.abspath(__file__)), "model/copy_mnist.model"))
+copy.save(os.path.join(os.path.dirname(os.path.abspath(__file__)), "model/copy_mnist_BigML.model"))
 
 
 print("\n======================== summary ========================")
