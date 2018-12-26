@@ -1,1 +1,7 @@
 mnist.pkl.gz filter=lfs diff=lfs merge=lfs -text
+BigML/data/datasets/MNIST/MNIST_test.csv
+BigML/data/datasets/MNIST/MNIST_train.csv
+BigML/data/datasets/MNIST_deepnet/MNIST_deepnet_test.csv
+BigML/data/datasets/MNIST_deepnet/MNIST_deepnet_train.csv
+BigML/data/predict_result/MNIST/MNIST_results
+BigML/data/predict_result/MNIST_deepnet/MNIST_deepnet_results

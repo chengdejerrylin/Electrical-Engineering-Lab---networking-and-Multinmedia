@@ -1,0 +1,4 @@
+MNIST_test.csv filter=lfs diff=lfs merge=lfs -text
+MNIST_train.csv filter=lfs diff=lfs merge=lfs -text
+MNIST_deepnet_test.csv filter=lfs diff=lfs merge=lfs -text
+MNIST_deepnet_train.csv filter=lfs diff=lfs merge=lfs -text
