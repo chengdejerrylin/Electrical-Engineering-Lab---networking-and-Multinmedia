@@ -53,10 +53,7 @@ class torchModel(object):
             acc_his = []
 
         print("training model...")
-        print(self.model)
-        print("Epoch:", epoch, ",Training_data_size:", nTrain, ",Batch_size:", batch)
-        print("optimizer:", self.optim)
-        print("loss_function:", self.loss_func, end="\n\n")
+        print("Total epoch:", epoch, ",Training_data_size:", nTrain, ",Batch_size:", batch)
 
         for e in range(epoch) :
             for b in range(nTrain // batch) :
@@ -114,6 +111,15 @@ class torchModel(object):
 
     def getAccuracy(self, x, y) : return -1
     def getAccuracyFromProb(self, x, y) : return -1
+
+    def __str__(self) :
+        result = str()
+        result += "=============== start print model ===============\n"
+        result += "model         : " + str(self.model) + '\n'
+        result += "optimizer     : " + str(self.optim) + '\n'
+        result += "loss function : " + str(self.loss_func) + '\n'
+        result += "===============  end print model  ==============="
+        return result
 
     def _getModel(self, layers):
 

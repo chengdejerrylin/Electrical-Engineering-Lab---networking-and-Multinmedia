@@ -39,6 +39,14 @@ copy.save(os.path.join(os.path.dirname(os.path.abspath(__file__)), "model/copy_m
 
 
 print("\n======================== summary ========================")
+print("origin model")
+print(origin)
+print("copy model")
+print(copy)
+print("Size of Training data  :", nTrain)
+print("Size of Training batch :", nBatch)
+print("Size of Testing  data  :", len(x_test))
+print("Epoch :", epoch)
 print("Training Accuracy of origin model :", origin.getAccuracy(x_train, y_train))
 print("Training Accuracy of   copy model :", copy.getAccuracy(x_train, y_train))
 print("Testing  Accuracy of origin model :", origin.getAccuracy(x_test, y_test))
