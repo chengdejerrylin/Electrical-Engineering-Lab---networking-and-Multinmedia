@@ -88,23 +88,18 @@ def getBigML(model_name) :
         answer_list = []
         output_list = []
 
-        output_order = []
+        output_order = dict()
         title = True
 
         for row in read_file:
             if title :
-                for i in range(input_number+1, input_number+1+output_category) :
-                    output_order.append(int(row[i][1]))
+                for i in range(output_category) :
+                    output_order[row[input_number+1+i][:-12]] = i
 
                 title = False
             else :
-                temp = []
-                for i in range(output_category) : temp.append(0)
                 input_list.append( [float(data) for data in row[0:input_number] ] )
-                answer_list.append(int(row[input_number][1]))
-                for i in range(output_category) :
-                    temp[output_order[i]] = float(row[input_number+1+i])
-
-                output_list.append(temp)
+                answer_list.append(output_order[row[input_number]])
+                output_list.append([float(data) for data in row[(int(input_number)+1) : (int(input_number) + int(output_category)+1)]])
 
         return input_list, answer_list, output_list

@@ -53,6 +53,7 @@ class torchModel(object):
             acc_his = []
 
         print("training model...")
+        print(self.model)
         print("Epoch:", epoch, ",Training_data_size:", nTrain, ",Batch_size:", batch)
         print("optimizer:", self.optim)
         print("loss_function:", self.loss_func, end="\n\n")
