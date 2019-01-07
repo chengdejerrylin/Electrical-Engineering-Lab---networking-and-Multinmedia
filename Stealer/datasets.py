@@ -9,6 +9,7 @@ import pickle, gzip
 import json
 import packagedModel as pack
 import csv
+import numpy as np
 
 def getAbsPath(path) :
     return os.path.join(os.path.dirname(os.path.abspath(__file__)), path)
@@ -72,7 +73,7 @@ def getMnistModel() :
     result.load(getAbsPath("pre_model/mnist.model"))
     return result
 
-def getBigML(model_name) :
+def getBigML(model_name, num = -1) :
     if model_name == "MNIST" or model_name == "MNIST_deepnet":
         input_number = 784
         output_category = 10
@@ -88,6 +89,11 @@ def getBigML(model_name) :
         answer_list = []
         output_list = []
 
+        for i in range(output_category) :
+            input_list.append([])
+            answer_list.append([])
+            output_list.append([])
+
         output_order = dict()
         title = True
 
@@ -98,8 +104,24 @@ def getBigML(model_name) :
 
                 title = False
             else :
-                input_list.append( [float(data) for data in row[0:input_number] ] )
-                answer_list.append(output_order[row[input_number]])
-                output_list.append([float(data) for data in row[(int(input_number)+1) : (int(input_number) + int(output_category)+1)]])
+                order = output_order[row[input_number]]
+                input_list[order].append( [float(data) for data in row[0:input_number] ] )
+                answer_list[order].append(output_order[row[input_number]])
+                output_list[order].append([float(data) for data in row[(int(input_number)+1) : (int(input_number) + int(output_category)+1)]])
 
-        return input_list, answer_list, output_list
+        data = []
+        ans  = []
+        prob = []
+
+        for i in range(output_category) :
+            n = int(num//output_category) if num != -1 and num//10 <= len(input_list[i]) else len(input_list[i])
+            mask = np.random.choice(len(input_list[i]), n , replace=False)
+            d, a, p = np.array(input_list[i])[mask], np.array(answer_list[i])[mask], np.array(output_list[i])[mask]
+
+            for j in range(len(d)):
+                data.append(d[j])
+                ans.append(a[j])
+                prob.append(p[j])
+
+
+        return data, ans, prob

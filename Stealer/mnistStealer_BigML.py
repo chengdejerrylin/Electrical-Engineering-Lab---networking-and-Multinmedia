@@ -4,19 +4,13 @@ import numpy as np
 import datasets
 import packagedModel as pack
 
-nTrain = 1000
+nTrain = 50
 epoch = 100
-nBatch = 100
+nBatch = 25
 pPerEpoch = 10
-trainTestRatio = .8
 
-x, y, y_prob = datasets.getBigML("MNIST")
-x, y, y_prob = np.array(x), np.array(y), np.array(y_prob)
-
-boundary = int(len(x)*trainTestRatio)
-mask = np.random.choice(boundary, nTrain , replace=False)
-x_train, y_train, y_value = x[mask], y[mask], y_prob[mask]
-x_test, y_test = x[boundary:], y[boundary:]
+x_train, y_train, y_value = datasets.getBigML("MNIST", nTrain)
+x_test, y_test, _ = datasets.getBigML("MNIST", 2000)
 
 layers = [("Linear", (784,100)), \
         ("ReLU", ()), \
@@ -41,9 +35,9 @@ copy.save(os.path.join(os.path.dirname(os.path.abspath(__file__)), "model/copy_m
 print("\n======================== summary ========================")
 print("origin model")
 print(origin)
-print("copy model")
+print("\ncopy model")
 print(copy)
-print("Size of Training data  :", nTrain)
+print("\nSize of Training data  :", nTrain)
 print("Size of Training batch :", nBatch)
 print("Size of Testing  data  :", len(x_test))
 print("Total Epoch :", epoch)
