@@ -7,6 +7,8 @@ import packagedModel as pack
 nTrain = 50
 epoch = 100
 nBatch = 25
+lr = 5e-5
+
 pPerEpoch = 10
 
 x_train, y_train, y_value = datasets.getBigML("MNIST", nTrain)
@@ -21,13 +23,13 @@ layers = [("Linear", (784,100)), \
 
 #Origin model
 print("\n======================== origin model ========================")
-origin = pack.classifyModel(layers, optimArgs = {"lr" : 5e-5})
+origin = pack.classifyModel(layers, optimArgs = {"lr" : lr})
 origin.train(x_train, y_train, epoch, nBatch, printPerEpoch=pPerEpoch, yType = "long", yTo2D = False)
 origin.save(os.path.join(os.path.dirname(os.path.abspath(__file__)), "model/origin_mnist_BigML.model"))
 
 #copy model
 print("\n======================== copy model ========================")
-copy = pack.classifyModel(layers, loss_func="BCELoss", optimArgs = {"lr" : 5e-5})
+copy = pack.classifyModel(layers, loss_func="BCELoss", optimArgs = {"lr" : lr})
 copy.train(x_train, y_value, epoch, nBatch, printPerEpoch=pPerEpoch)
 copy.save(os.path.join(os.path.dirname(os.path.abspath(__file__)), "model/copy_mnist_BigML.model"))
 
