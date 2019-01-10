@@ -114,7 +114,7 @@ def getBigML(model_name, num = -1) :
         prob = []
 
         for i in range(output_category) :
-            n = int(num//output_category) if num != -1 and num//10 <= len(input_list[i]) else len(input_list[i])
+            n = int(num//output_category) if num != -1 and num//output_category <= len(input_list[i]) else len(input_list[i])
             mask = np.random.choice(len(input_list[i]), n , replace=False)
             d, a, p = np.array(input_list[i])[mask], np.array(answer_list[i])[mask], np.array(output_list[i])[mask]
 
@@ -122,6 +122,5 @@ def getBigML(model_name, num = -1) :
                 data.append(d[j])
                 ans.append(a[j])
                 prob.append(p[j])
-
 
         return data, ans, prob
