@@ -74,7 +74,9 @@ def getMnistModel() :
     return result
 
 def getBigML(model_name, ratio = 1.0, path = "") :
-    if not path : path = getAbsPath("../BigML/data/predict_result/" + model_name + "/" + model_name + "_results")
+    if not path : path = "../BigML/data/predict_result/" + model_name + "/" + model_name + "_results"
+    path = getAbsPath(path)
+    
     if model_name == "MNIST" or model_name == "MNIST_deepnet":
         input_number = 784
         output_category = 10
@@ -100,14 +102,14 @@ def getBigML(model_name, ratio = 1.0, path = "") :
         for row in read_file:
             if title :
                 for i in range(output_category) :
-                    output_order[row[input_number+1+i][:-12]] = i
+                    output_order[row[input_number+2+i][:-12]] = i
 
                 title = False
             else :
                 order = output_order[row[input_number]]
                 input_list[order].append( [float(data) for data in row[0:input_number] ] )
                 answer_list[order].append(output_order[row[input_number]])
-                output_list[order].append([float(data) for data in row[(int(input_number)+1) : (int(input_number) + int(output_category)+1)]])
+                output_list[order].append([float(data) for data in row[(int(input_number)+2) : (int(input_number) + int(output_category)+2)]])
 
     trainData, testData = [], []
     trainAns , testAns  = [], []
