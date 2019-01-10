@@ -73,7 +73,8 @@ def getMnistModel() :
     result.load(getAbsPath("pre_model/mnist.model"))
     return result
 
-def getBigML(model_name, num = -1) :
+def getBigML(model_name, ratio = 1.0, path = "") :
+    if not path : path = getAbsPath("../BigML/data/predict_result/" + model_name + "/" + model_name + "_results")
     if model_name == "MNIST" or model_name == "MNIST_deepnet":
         input_number = 784
         output_category = 10
@@ -82,12 +83,11 @@ def getBigML(model_name, num = -1) :
         output_category = 3
 
 
-    with open(getAbsPath("../BigML/data/predict_result/" + model_name + "/" + model_name + "_results")) as readcsv :
+    input_list = []
+    answer_list = []
+    output_list = []
+    with open(path) as readcsv :
         read_file = csv.reader(readcsv, delimiter=',')
-
-        input_list = []
-        answer_list = []
-        output_list = []
 
         for i in range(output_category) :
             input_list.append([])
@@ -109,18 +109,27 @@ def getBigML(model_name, num = -1) :
                 answer_list[order].append(output_order[row[input_number]])
                 output_list[order].append([float(data) for data in row[(int(input_number)+1) : (int(input_number) + int(output_category)+1)]])
 
-        data = []
-        ans  = []
-        prob = []
+    trainData, testData = [], []
+    trainAns , testAns  = [], []
+    trainProb, testProb = [], []
 
-        for i in range(output_category) :
-            n = int(num//output_category) if num != -1 and num//output_category <= len(input_list[i]) else len(input_list[i])
-            mask = np.random.choice(len(input_list[i]), n , replace=False)
-            d, a, p = np.array(input_list[i])[mask], np.array(answer_list[i])[mask], np.array(output_list[i])[mask]
+    for i in range(output_category) :
+        n = int(len(input_list[i])*ratio + 0.5)
+        choice = np.random.choice(len(input_list[i]), n , replace=False)
+        mask = np.zeros(len(input_list[i]), dtype = bool)
+        mask[choice] = True
 
-            for j in range(len(d)):
-                data.append(d[j])
-                ans.append(a[j])
-                prob.append(p[j])
+        d, a, p = np.array(input_list[i])[mask], np.array(answer_list[i])[mask], np.array(output_list[i])[mask]
+        d1, a1, p1 = np.array(input_list[i])[~mask], np.array(answer_list[i])[~mask], np.array(output_list[i])[~mask]
 
-        return data, ans, prob
+        for j in range(len(d)):
+            trainData.append(d[j])
+            trainAns.append(a[j])
+            trainProb.append(p[j])
+
+        for j in range(len(d1)):
+            testData.append(d1[j])
+            testAns.append(a1[j])
+            testProb.append(p1[j])
+
+    return trainData, trainAns, trainProb, testData, testAns, testProb
