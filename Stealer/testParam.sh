@@ -6,13 +6,16 @@ _epoch=(50 100 200)
 _loss=(BCELoss BCEWithLogitsLoss MSELoss)
 testTime=10
 
+echo training size,testing size,loss function,batch size,learning rate,epoch,control trainning accuracy,copy trainning accuracy,control testing accuracy,copy testing accuracy
+
 for ratio in ${_ratio[@]}; do
-    for lr in ${_lr[@]}; do
+    for loss in ${_loss[@]}; do
         for nb in ${_nb[@]}; do
-            for e in ${_epoch[@]}; do
-                for (( i = 0; i < $testTime; i++ )); do
-                    python ${1} ${2} -r ${ratio} -nb ${nb} -e ${e} -lr ${lr} -noP
-                    echo ${i}
+            for lr in ${_lr[@]}; do
+                for e in ${_epoch[@]}; do
+                    for (( i = 0; i < $testTime; i++ )); do
+                        python ${1} ${2} -r ${ratio} -nb ${nb} -e ${e} -lr ${lr} -noP
+                    done
                 done
             done
         done

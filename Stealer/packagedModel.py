@@ -48,7 +48,7 @@ class torchModel(object):
             y = self._inputTransform(y_train, yType, False)
 
         #plot
-        if plt is not None :
+        if plt is not None and printData :
             loss_his = []
             acc_his = []
 
@@ -74,7 +74,7 @@ class torchModel(object):
             numLoss = float(loss.detach())
             acc = self.getAccuracy(x_batch, y_batch)
 
-            if plt is not None : loss_his.append(numLoss)
+            if plt is not None and printData : loss_his.append(numLoss)
             if acc != -1 :
                 if plt is not None : acc_his.append(acc)
                 if printPerEpoch > 0 and (e+1) % printPerEpoch == 0 and printAcc :
@@ -84,7 +84,7 @@ class torchModel(object):
                     print("Epoch:", e+1, ",loss:", float(loss.detach()))
 
         #plot
-        if plt is not None :
+        if plt is not None and printData:
             plt.plot(loss_his)
             if acc_his : plt.plot(acc_his)
 
