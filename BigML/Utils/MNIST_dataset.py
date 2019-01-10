@@ -17,16 +17,14 @@ print("Shape : ", x_train.shape,y_train.shape,x_test.shape,y_test.shape)
 print("Max and min of x_train and y_train : ", np.min(x_train),np.max(x_train),np.min(y_train),np.max(y_train))
 
 # write testing answer to file
-
-
 lister = []
-with open("MNIST_test__qaa.csv", "a") as f:
+with open("MNIST_test_tmp.csv", "a") as f:
     for i in range(0,784):
         lister.append("Field_"+str(i+1))
     lister.append("Answer")
-    wr = csv.writer(f, quoting=csv.QUOTE_ALL)
+    wr = csv.writer(f)
     wr.writerow(lister)
-    for i in range(0,784):
+    for i in range(0,10000):
         tmp = x_test[i].tolist()
         tmp.append("'" + str(y_test[i]) + "'")
         wr.writerow(tmp)

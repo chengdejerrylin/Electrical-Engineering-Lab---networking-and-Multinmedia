@@ -24,9 +24,6 @@ def parser(model_name, input_number, output_category):
             if k > 2:
                 break
 
-
-
-
 if __name__ == "__main__":
     model_name = input("Please input model name! ")
     input_number = input("Ur input variable number: ")
