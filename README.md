@@ -2,6 +2,10 @@
 
 助教可以跳過偷取前準備工作，直接跑我們產生的 MNIST 結果
 
+##環境
+Python 3.6.7
+Package requirement : Stealer/requirement.txt
+
 ## 偷取前準備
 ### 事前準備：
 1. 申請 BigML 帳戶
@@ -42,3 +46,30 @@
     3. 輸入原本 input 資料的維度：Ur input variable number:
     4. 輸入輸出資料的種類數：Ur output variable category number: 
     5. 結果將存至 'BigML/data/predict_result/'
+
+## 偷取Model
+### 使用特定參數偷取model
+    1. 移動到Stealer資料夾。 `cd Stealer`
+    2. 安裝package。`pip install -r requirement.txt`
+    3. 執行BigMLStealer.py。
+           偷取Decision Tree的Model ：`python BigMLStealer.py MNIST`
+           偷取Neural Network的Model：`python BigMLStealer.py MNIST_deepnet`
+           查看完整的使用方法：`python BigMLStealer.py -h`
+           train完的model會放在Stealer/model
+
+### 測試不同的參數的效果
+    1. 修改testParam.sh中想要測試的參數
+           line2 : ratio(trainning size/testing size)。(trainning size + testing size = 10000)
+           line3 : learning rate
+           line4 : batch size
+           line5 : epoch
+           line6 : loss function
+    2. 執行testParam.sh：
+           偷取Decision Tree的Model ： `./testParam.sh BigMLStealer.py MNIST`
+           偷取Decision Tree的Model ： `./testParam.sh BigMLStealer.py MNIST_deepnet`
+           在Stealer底下會生成一個csv黨儲存結果
+    3. 整理數據
+           執行getCsvAverage.py : `python getCsvAverage.py <csv_file_name>`
+           在Stealer底下會生成一個結尾為_average.csv的檔案黨儲存結果
+
+

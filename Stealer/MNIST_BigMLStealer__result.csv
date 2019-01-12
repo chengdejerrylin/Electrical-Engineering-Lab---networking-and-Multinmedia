@@ -1,0 +1,2 @@
+training size,testing size,loss function,batch size,learning rate,epoch,control trainning accuracy,copy trainning accuracy,control testing accuracy,copy testing accuracy
+100,9900,BCELoss,100,1e-05,50,0.25,0.19,0.17303030303030303,0.19434343434343435

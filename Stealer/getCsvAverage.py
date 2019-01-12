@@ -32,7 +32,7 @@ with open(args.inputFile, 'r', newline='') as ifs :
 				if current[i] != row[i] :
 					if num != 0 :
 						for j in range(args.nAcc) : current[-args.nAcc +j] = acc[j]/num
-						if current[-1] +0.02< current[-2] : print(current)
+						print(current)
 						writer.writerow(current)
 
 						current = list(row)
