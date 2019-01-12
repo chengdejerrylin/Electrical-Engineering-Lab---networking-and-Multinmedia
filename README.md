@@ -13,7 +13,6 @@
 2. 利用 BigML API 建立 Model：
 執行 'python BigML/Create_model.py'
 此步驟會完成以下事項
-Decison_tree / Ensemble / Deepnet / Association_model
     1. 輸入 Model 名字： model_name = input('Enter a model name: ')
         * 以 MNIST 為例，輸入 'MNIST'
     2. 輸入資料是否在 Local 端 local_or_online = input('Local or online (L/O)?')
