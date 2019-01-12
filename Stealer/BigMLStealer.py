@@ -17,7 +17,7 @@ parser.add_argument('-e' , '-epoch' , dest='epoch'    , type=int  , default=200 
 parser.add_argument('-lr',            dest='lr'       , type=float, default=1e-4, help='Learning rate.')
 parser.add_argument('-pPerEpoch',     dest='pPerEpoch', type=int  , default=10  , help='print per epoch.')
 parser.add_argument('-noP',           dest='pDetail'  , action='store_false', help='do not print detail data.')
-parser.add_argument('-loss',          dest='loss'     , default="BCELoss", help='do not print detail data.')
+parser.add_argument('-loss',          dest='loss'     , default="BCELoss", help='set loss function.')
 
 args = parser.parse_args()
 ratio = args.ratio
