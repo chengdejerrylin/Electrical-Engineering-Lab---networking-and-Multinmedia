@@ -1,6 +1,6 @@
 library(ggplot2)
 library(reshape2)
-raw <- read.csv("./MNIST_BigMLStealer_3240_result_average.csv")
+raw <- read.csv("./MNIST_BigMLStealer_target_result_average.csv")
 head(raw)
 raw.epoch.200 <- raw[raw$epoch == 200,]
 
@@ -146,7 +146,7 @@ ggsave("figure/testing_learning_1e-04_DT.png",
 
 
 
-raw_deepnet <- read.csv("./MNIST_deepnet_BigMLStealer_3240_result_average.csv")
+raw_deepnet <- read.csv("./MNIST_deepnet_BigMLStealer_target_result_average.csv")
 head(raw_deepnet)
 
 raw.epoch.200.deepnet <- raw_deepnet[raw_deepnet$epoch == 200,]
@@ -287,6 +287,300 @@ ggplot(draw.melt.testing.learningrate.3.deepnet, aes(x=training.size, y=value, c
   xlab("Training size") + ylab("Testing Accuracy") + 
   theme(plot.title = element_text(size=25, hjust = 0.5))
 ggsave("figure/testing_learning_1e-04_DN.png",
+       dpi = 300,
+       width = 7,
+       height = 7)
+
+##########################################################################################################
+##########################################################################################################
+
+raw <- read.csv("./MNIST_BigMLStealer_target_result.csv")
+head(raw)
+raw.epoch.200 <- raw[raw$epoch == 200,]
+
+## Whole data for training
+draw.melt.training <- melt(raw.epoch.200, id=c("training.size", "testing.size", "loss.function", "batch.size", "learning.rate", "epoch", "control.testing.accuracy", "copy.testing.accuracy"))
+head(draw.melt.training)
+
+## Whole data for testing
+draw.melt.testing <- melt(raw.epoch.200, id=c("training.size", "testing.size", "loss.function", "batch.size", "learning.rate", "epoch", "control.trainning.accuracy", "copy.trainning.accuracy"))
+head(draw.melt.testing)
+
+## Training with different learning rate
+draw.melt.training.learningrate.1 <- draw.melt.training[draw.melt.training$learning.rate == 1e-05, ]
+draw.melt.training.learningrate.2 <- draw.melt.training[draw.melt.training$learning.rate == 5e-05, ]
+draw.melt.training.learningrate.3 <- draw.melt.training[draw.melt.training$learning.rate == 1e-04, ]
+
+## Testing with different learning rate
+draw.melt.testing.learningrate.1 <- draw.melt.testing[draw.melt.testing$learning.rate == 1e-05, ]
+draw.melt.testing.learningrate.2 <- draw.melt.testing[draw.melt.testing$learning.rate == 5e-05, ]
+draw.melt.testing.learningrate.3 <- draw.melt.testing[draw.melt.testing$learning.rate == 1e-04, ]
+
+# Drawing for whole training data
+ggplot(draw.melt.training, aes(x=training.size, y=value, color=variable)) + 
+  ggtitle("Whole Training Data, DT, 10") +
+  geom_point(size = 3) + 
+  theme_bw() +
+  theme(legend.position="top") +
+  theme(legend.background = element_rect(size=0.5, linetype="solid", 
+                                         colour ="darkblue")) + 
+  xlab("Training size") + ylab("Training Accuracy") + 
+  theme(plot.title = element_text(size=25, hjust = 0.5))
+ggsave("figure/whole_training_DT_10.png",
+       dpi = 300,
+       width = 7,
+       height = 7)
+
+# Drawing for testing data
+ggplot(draw.melt.testing, aes(x=training.size, y=value, color=variable)) + 
+  ggtitle("Whole Testing Data, DT, 10") +
+  geom_point(size = 3) + 
+  theme_bw() +
+  theme(legend.position="top")+
+  theme(legend.background = element_rect(size=0.5, linetype="solid", 
+                                         colour ="darkblue")) + 
+  xlab("Training size") + ylab("Testing Accuracy") + 
+  theme(plot.title = element_text(size=25, hjust = 0.5))
+ggsave("figure/whole_testing_DT_10.png",
+       dpi = 300,
+       width = 7,
+       height = 7)
+
+# Drawing for whole training data, learning rate 1e-05 
+ggplot(draw.melt.training.learningrate.1, aes(x=training.size, y=value, color=variable)) + 
+  ggtitle("Training, DT, 10 + learning rate 1e-05") +
+  geom_point(size = 3) + 
+  theme_bw() +
+  theme(legend.position="top")+
+  theme(legend.background = element_rect(size=0.5, linetype="solid", 
+                                         colour ="darkblue")) + 
+  xlab("Training size") + ylab("Training Accuracy") + 
+  theme(plot.title = element_text(size=25, hjust = 0.5))
+ggsave("figure/training_learning_1e-05_DT_10.png",
+       dpi = 300,
+       width = 7,
+       height = 7)
+
+# Drawing for whole training data, learning rate 5e-05 
+ggplot(draw.melt.training.learningrate.2, aes(x=training.size, y=value, color=variable)) + 
+  ggtitle("Training, DT, 10 + learning rate 5e-05") +
+  geom_point(size = 3) + 
+  theme_bw() +
+  theme(legend.position="top")+
+  theme(legend.background = element_rect(size=0.5, linetype="solid", 
+                                         colour ="darkblue")) + 
+  xlab("Training size") + ylab("Training Accuracy") + 
+  theme(plot.title = element_text(size=25, hjust = 0.5))
+ggsave("figure/training_learning_5e-05_DT_10.png",
+       dpi = 300,
+       width = 7,
+       height = 7)
+
+# Drawing for whole training data, learning rate 1e-04
+ggplot(draw.melt.training.learningrate.3, aes(x=training.size, y=value, color=variable)) + 
+  ggtitle("Training, DT, 10 + learning rate 1e-04") +
+  geom_point(size = 3) + 
+  theme_bw() +
+  theme(legend.position="top")+
+  theme(legend.background = element_rect(size=0.5, linetype="solid", 
+                                         colour ="darkblue")) + 
+  xlab("Training size") + ylab("Training Accuracy") + 
+  theme(plot.title = element_text(size=25, hjust = 0.5))
+ggsave("figure/training_learning_1e-04_DT_10.png",
+       dpi = 300,
+       width = 7,
+       height = 7)
+
+# Drawing for whole training data, learning rate 1e-05 
+ggplot(draw.melt.testing.learningrate.1, aes(x=training.size, y=value, color=variable)) + 
+  ggtitle("Testing, DT, 10 + learning rate 1e-05") +
+  geom_point(size = 3) + 
+  theme_bw() +
+  theme(legend.position="top")+
+  theme(legend.background = element_rect(size=0.5, linetype="solid", 
+                                         colour ="darkblue")) + 
+  xlab("Training size") + ylab("Testing Accuracy") + 
+  theme(plot.title = element_text(size=25, hjust = 0.5))
+ggsave("figure/testing_learning_1e-05_DT_10.png",
+       dpi = 300,
+       width = 7,
+       height = 7)
+
+# Drawing for whole training data, learning rate 5e-05
+ggplot(draw.melt.testing.learningrate.2, aes(x=training.size, y=value, color=variable)) + 
+  ggtitle("Testing, DT, 10 + learning rate 5e-05") +
+  geom_point(size = 3) + 
+  theme_bw() +
+  theme(legend.position="top")+
+  theme(legend.background = element_rect(size=0.5, linetype="solid", 
+                                         colour ="darkblue")) + 
+  xlab("Training size") + ylab("Testing Accuracy") + 
+  theme(plot.title = element_text(size=25, hjust = 0.5))
+ggsave("figure/testing_learning_5e-05_DT_10.png",
+       dpi = 300,
+       width = 7,
+       height = 7)
+
+# Drawing for whole training data, learning rate 1e-04
+ggplot(draw.melt.testing.learningrate.3, aes(x=training.size, y=value, color=variable)) + 
+  ggtitle("Testing, DT, 10 + learning rate 1e-04") +
+  geom_point(size = 3) + 
+  theme_bw() +
+  theme(legend.position="top")+
+  theme(legend.background = element_rect(size=0.5, linetype="solid", 
+                                         colour ="darkblue")) + 
+  xlab("Training size") + ylab("Testing Accuracy") + 
+  theme(plot.title = element_text(size=25, hjust = 0.5))
+ggsave("figure/testing_learning_1e-04_DT_10.png",
+       dpi = 300,
+       width = 7,
+       height = 7)
+
+
+
+
+
+raw_deepnet <- read.csv("./MNIST_deepnet_BigMLStealer_target_result.csv")
+head(raw_deepnet)
+
+raw.epoch.200.deepnet <- raw_deepnet[raw_deepnet$epoch == 200,]
+head(raw.epoch.200.deepnet)
+
+## Whole data for training
+draw.melt.training.deepnet <- melt(raw.epoch.200.deepnet, id=c("training.size", "testing.size", "loss.function", "batch.size", "learning.rate", "epoch", "control.testing.accuracy", "copy.testing.accuracy"))
+head(draw.melt.training)
+
+## Whole data for testing
+draw.melt.testing.deepnet <- melt(raw.epoch.200.deepnet, id=c("training.size", "testing.size", "loss.function", "batch.size", "learning.rate", "epoch", "control.trainning.accuracy", "copy.trainning.accuracy"))
+head(draw.melt.testing)
+
+## Training with different learning rate
+draw.melt.training.learningrate.1.deepnet <- draw.melt.training.deepnet[draw.melt.training.deepnet$learning.rate == 1e-05, ]
+draw.melt.training.learningrate.2.deepnet <- draw.melt.training.deepnet[draw.melt.training.deepnet$learning.rate == 5e-05, ]
+draw.melt.training.learningrate.3.deepnet <- draw.melt.training.deepnet[draw.melt.training.deepnet$learning.rate == 1e-04, ]
+
+## Testing with different learning rate
+draw.melt.testing.learningrate.1.deepnet <- draw.melt.testing.deepnet[draw.melt.testing.deepnet$learning.rate == 1e-05, ]
+draw.melt.testing.learningrate.2.deepnet <- draw.melt.testing.deepnet[draw.melt.testing.deepnet$learning.rate == 5e-05, ]
+draw.melt.testing.learningrate.3.deepnet <- draw.melt.testing.deepnet[draw.melt.testing.deepnet$learning.rate == 1e-04, ]
+
+
+# Drawing for whole training data
+ggplot(draw.melt.training.deepnet, aes(x=training.size, y=value, color=variable)) + 
+  ggtitle("Whole Training Data, DN, 10") +
+  geom_point(size = 3) + 
+  theme_bw() +
+  theme(legend.position="top") +
+  theme(legend.background = element_rect(size=0.5, linetype="solid", 
+                                         colour ="darkblue")) + 
+  xlab("Training size") + ylab("Training Accuracy") + 
+  theme(plot.title = element_text(size=25, hjust = 0.5))
+ggsave("figure/whole_training_DN_10.png",
+       dpi = 300,
+       width = 7,
+       height = 7)
+
+# Drawing for testing data
+ggplot(draw.melt.testing.deepnet, aes(x=training.size, y=value, color=variable)) + 
+  ggtitle("Whole Testing Data, DN, 10") +
+  geom_point(size = 3) + 
+  theme_bw() +
+  theme(legend.position="top")+
+  theme(legend.background = element_rect(size=0.5, linetype="solid", 
+                                         colour ="darkblue")) + 
+  xlab("Training size") + ylab("Testing Accuracy") + 
+  theme(plot.title = element_text(size=25, hjust = 0.5))
+ggsave("figure/whole_testing_DN_10.png",
+       dpi = 300,
+       width = 7,
+       height = 7)
+
+# Drawing for whole training data, learning rate 1e-05 
+ggplot(draw.melt.training.learningrate.1.deepnet, aes(x=training.size, y=value, color=variable)) + 
+  ggtitle("Training, DN, 10 + learning rate 1e-05") +
+  geom_point(size = 3) + 
+  theme_bw() +
+  theme(legend.position="top")+
+  theme(legend.background = element_rect(size=0.5, linetype="solid", 
+                                         colour ="darkblue")) + 
+  xlab("Training size") + ylab("Training Accuracy") + 
+  theme(plot.title = element_text(size=25, hjust = 0.5))
+ggsave("figure/training_learning_1e-05_DN_10.png",
+       dpi = 300,
+       width = 7,
+       height = 7)
+
+# Drawing for whole training data, learning rate 5e-05 
+ggplot(draw.melt.training.learningrate.2.deepnet, aes(x=training.size, y=value, color=variable)) + 
+  ggtitle("Training, DN, 10 + learning rate 5e-05") +
+  geom_point(size = 3) + 
+  theme_bw() +
+  theme(legend.position="top")+
+  theme(legend.background = element_rect(size=0.5, linetype="solid", 
+                                         colour ="darkblue")) + 
+  xlab("Training size") + ylab("Training Accuracy") + 
+  theme(plot.title = element_text(size=25, hjust = 0.5))
+ggsave("figure/training_learning_5e-05_DN_10.png",
+       dpi = 300,
+       width = 7,
+       height = 7)
+
+# Drawing for whole training data, learning rate 1e-04
+ggplot(draw.melt.training.learningrate.3.deepnet, aes(x=training.size, y=value, color=variable)) + 
+  ggtitle("Training, DN, 10 + learning rate 1e-04") +
+  geom_point(size = 3) + 
+  theme_bw() +
+  theme(legend.position="top")+
+  theme(legend.background = element_rect(size=0.5, linetype="solid", 
+                                         colour ="darkblue")) + 
+  xlab("Training size") + ylab("Training Accuracy") + 
+  theme(plot.title = element_text(size=25, hjust = 0.5))
+ggsave("figure/training_learning_1e-04_DN_10.png",
+       dpi = 300,
+       width = 7,
+       height = 7)
+
+# Drawing for whole training data, learning rate 1e-05 
+ggplot(draw.melt.testing.learningrate.1.deepnet, aes(x=training.size, y=value, color=variable)) + 
+  ggtitle("Testing, DN, 10 + learning rate 1e-05") +
+  geom_point(size = 3) + 
+  theme_bw() +
+  theme(legend.position="top")+
+  theme(legend.background = element_rect(size=0.5, linetype="solid", 
+                                         colour ="darkblue")) + 
+  xlab("Training size") + ylab("Testing Accuracy") + 
+  theme(plot.title = element_text(size=25, hjust = 0.5))
+ggsave("figure/testing_learning_1e-05_DN_10.png",
+       dpi = 300,
+       width = 7,
+       height = 7)
+
+# Drawing for whole training data, learning rate 5e-05
+ggplot(draw.melt.testing.learningrate.2.deepnet, aes(x=training.size, y=value, color=variable)) + 
+  ggtitle("Testing, DN, 10 + learning rate 5e-05") +
+  geom_point(size = 3) + 
+  theme_bw() +
+  theme(legend.position="top")+
+  theme(legend.background = element_rect(size=0.5, linetype="solid", 
+                                         colour ="darkblue")) + 
+  xlab("Training size") + ylab("Testing Accuracy") + 
+  theme(plot.title = element_text(size=25, hjust = 0.5))
+ggsave("figure/testing_learning_5e-05_DN_10.png",
+       dpi = 300,
+       width = 7,
+       height = 7)
+
+# Drawing for whole training data, learning rate 1e-04
+ggplot(draw.melt.testing.learningrate.3.deepnet, aes(x=training.size, y=value, color=variable)) + 
+  ggtitle("Testing, DN, 10 + learning rate 1e-04") +
+  geom_point(size = 3) + 
+  theme_bw() +
+  theme(legend.position="top")+
+  theme(legend.background = element_rect(size=0.5, linetype="solid", 
+                                         colour ="darkblue")) + 
+  xlab("Training size") + ylab("Testing Accuracy") + 
+  theme(plot.title = element_text(size=25, hjust = 0.5))
+ggsave("figure/testing_learning_1e-04_DN_10.png",
        dpi = 300,
        width = 7,
        height = 7)
