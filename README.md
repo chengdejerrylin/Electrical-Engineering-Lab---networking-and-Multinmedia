@@ -52,25 +52,25 @@ Package requirement : Stealer/requirement.txt
 1. 移動到Stealer資料夾。 `cd Stealer`
 2. 安裝package。`pip install -r requirement.txt`
 3. 執行BigMLStealer.py。
-       偷取Decision Tree的Model ：`python BigMLStealer.py MNIST`
-       偷取Neural Network的Model：`python BigMLStealer.py MNIST_deepnet`
-       查看完整的使用方法：`python BigMLStealer.py -h`
-       train完的model會放在Stealer/model
+    * 偷取Decision Tree的Model ：`python BigMLStealer.py MNIST`
+    * 偷取Neural Network的Model：`python BigMLStealer.py MNIST_deepnet`
+    * 查看完整的使用方法：`python BigMLStealer.py -h`
+    * train完的model會放在Stealer/model
 
 ### 測試不同的參數的效果
 1. 修改testParam.sh中想要測試的參數
-       line2 : ratio(trainning size/testing size)。(trainning size + testing size = 10000)
-       line3 : learning rate
-       line4 : batch size
-       line5 : epoch
-       line6 : loss function
+    * line2 : ratio(trainning size/testing size)。(trainning size + testing size = 10000)
+    * line3 : learning rate
+    * line4 : batch size
+    * line5 : epoch
+    * line6 : loss function
 2. 執行testParam.sh：
-       偷取Decision Tree的Model ： `./testParam.sh BigMLStealer.py MNIST`
-       偷取Decision Tree的Model ： `./testParam.sh BigMLStealer.py MNIST_deepnet`
-       在Stealer底下會生成一個csv黨儲存結果
+    * 偷取Decision Tree的Model ： `./testParam.sh BigMLStealer.py MNIST`
+    * 偷取Decision Tree的Model ： `./testParam.sh BigMLStealer.py MNIST_deepnet`
+    * 在Stealer底下會生成一個csv黨儲存結果
 3. 整理數據
-       執行getCsvAverage.py : `python getCsvAverage.py <csv_file_name>`
-       在Stealer底下會生成一個結尾為_average.csv的檔案黨儲存結果
+    * 執行getCsvAverage.py : `python getCsvAverage.py <csv_file_name>`
+    * 在Stealer底下會生成一個結尾為_average.csv的檔案黨儲存結果
 
 ## 資料視覺化
 1. 執行 R 畫圖，程式位於 'Stealer/drawing.R'
