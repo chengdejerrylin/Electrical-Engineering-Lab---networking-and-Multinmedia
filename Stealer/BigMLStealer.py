@@ -26,13 +26,13 @@ nBatch = args.nBatch
 lr = args.lr
 pPerEpoch = args.pPerEpoch if args.pDetail else -1
 
-x_train, y_train, y_value, x_test, y_test, _ = datasets.getBigML(args.data, ratio)
+x_train, _, y_value, y_pred, x_test, y_test, traget_pred = datasets.getBigML(args.data, ratio)
 layer = layers.getLayer(args.data)
 
 #control model
 if args.pDetail : print("\n======================== control model ========================")
 control = pack.classifyModel(layer, optimArgs = {"lr" : lr})
-control.train(x_train, y_train, epoch, nBatch, printPerEpoch=pPerEpoch, yType = "long", yTo2D = False, printData = args.pDetail, printAcc = args.pDetail)
+control.train(x_train, y_pred, epoch, nBatch, printPerEpoch=pPerEpoch, yType = "long", yTo2D = False, printData = args.pDetail, printAcc = args.pDetail)
 control.save(getAbsPath("model/BigML_" + args.data + "_control.model"))
 
 #copy model
@@ -53,10 +53,10 @@ if args.pDetail :
     print("Total Epoch :", epoch)
     print("Learning Rate :", lr)
     print("loss function :", args.loss)
-    print("Training Accuracy of control model :", control.getAccuracy(x_train, y_train))
-    print("Training Accuracy of   copy model :", copy.getAccuracy(x_train, y_train))
-    print("Testing  Accuracy of control model :", control.getAccuracy(x_test, y_test))
-    print("Testing  Accuracy of   copy model :", copy.getAccuracy(x_test, y_test))
+    print("Training Accuracy of control model :", control.getAccuracy(x_train, y_pred))
+    print("Training Accuracy of   copy model :", copy.getAccuracy(x_train, y_pred))
+    print("Testing  Accuracy of control model :", control.getAccuracy(x_test, traget_pred))
+    print("Testing  Accuracy of   copy model :", copy.getAccuracy(x_test, traget_pred))
 else :
     csv = str(len(x_train))
     csv += ',' + str(len(x_test))
@@ -64,9 +64,9 @@ else :
     csv += ',' + str(nBatch)
     csv += ',' + str(lr)
     csv += ',' + str(epoch)
-    csv += ',' + str(control.getAccuracy(x_train, y_train))
-    csv += ',' + str(copy.getAccuracy(x_train, y_train))
-    csv += ',' + str(control.getAccuracy(x_test, y_test))
-    csv += ',' + str(copy.getAccuracy(x_test, y_test))
+    csv += ',' + str(control.getAccuracy(x_train, y_pred))
+    csv += ',' + str(copy.getAccuracy(x_train, y_pred))
+    csv += ',' + str(control.getAccuracy(x_test, traget_pred))
+    csv += ',' + str(copy.getAccuracy(x_test, traget_pred))
     print(csv)
     

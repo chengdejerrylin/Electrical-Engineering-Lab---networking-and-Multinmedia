@@ -1,10 +1,10 @@
 #!/bin/bash
-_ratio=(0.01 0.02 0.03 0.05 0.1 0.2 0.5 0.7 0.9)
+_ratio=(0.05 0.1 0.3 0.5 0.7 0.9)
 _lr=(1e-5 5e-5 1e-4) #_lr=(1e-5 3e-5 5e-5 7e-5 1e-4)
 _nb=(100) #_nb=(50 100)
-_epoch=(50 100 200)
-_loss=(BCELoss MSELoss) #_loss=(BCELoss BCEWithLogitsLoss MSELoss)
-testTime=20
+_epoch=(200) # _epoch=(50 100 200)
+_loss=(BCELoss) #_loss=(BCELoss BCEWithLogitsLoss MSELoss)
+testTime=10
 outfile="${2}_${1%.*}_${3}_result.csv"
 
 title="training size,testing size,loss function,batch size,learning rate,epoch,control trainning accuracy,copy trainning accuracy,control testing accuracy,copy testing accuracy"
@@ -26,6 +26,8 @@ for ratio in ${_ratio[@]}; do
         done
     done
 done
+
+python getCsvAverage ${outfile}
 
 #echo -e "${1},${2},\c" | tee  -a ${outfile}
 #echo `date "+%Y-%m-%d %H:%M:%S"` | tee -a ${outfile}

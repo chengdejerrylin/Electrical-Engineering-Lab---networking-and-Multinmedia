@@ -88,6 +88,7 @@ def getBigML(model_name, ratio = 1.0, path = "") :
     input_list = []
     answer_list = []
     output_list = []
+    predict_list = []
     with open(path) as readcsv :
         read_file = csv.reader(readcsv, delimiter=',')
 
@@ -95,6 +96,7 @@ def getBigML(model_name, ratio = 1.0, path = "") :
             input_list.append([])
             answer_list.append([])
             output_list.append([])
+            predict_list.append([])
 
         output_order = dict()
         title = True
@@ -110,10 +112,12 @@ def getBigML(model_name, ratio = 1.0, path = "") :
                 input_list[order].append( [float(data) for data in row[0:input_number] ] )
                 answer_list[order].append(output_order[row[input_number]])
                 output_list[order].append([float(data) for data in row[(int(input_number)+2) : (int(input_number) + int(output_category)+2)]])
+                predict_list[order].append(output_order[row[input_number+1]])
 
     trainData, testData = [], []
     trainAns , testAns  = [], []
     trainProb, testProb = [], []
+    trainPred, testPred = [], []
 
     for i in range(output_category) :
         n = int(len(input_list[i])*ratio + 0.5)
@@ -121,17 +125,19 @@ def getBigML(model_name, ratio = 1.0, path = "") :
         mask = np.zeros(len(input_list[i]), dtype = bool)
         mask[choice] = True
 
-        d, a, p = np.array(input_list[i])[mask], np.array(answer_list[i])[mask], np.array(output_list[i])[mask]
-        d1, a1, p1 = np.array(input_list[i])[~mask], np.array(answer_list[i])[~mask], np.array(output_list[i])[~mask]
+        d, a, p, pr = np.array(input_list[i])[mask], np.array(answer_list[i])[mask], np.array(output_list[i])[mask], np.array(predict_list[i])[mask]
+        d1, a1, p1, pr1 = np.array(input_list[i])[~mask], np.array(answer_list[i])[~mask], np.array(output_list[i])[~mask], np.array(predict_list[i])[~mask]
 
         for j in range(len(d)):
             trainData.append(d[j])
             trainAns.append(a[j])
             trainProb.append(p[j])
+            trainPred.append(pr[j])
 
         for j in range(len(d1)):
             testData.append(d1[j])
             testAns.append(a1[j])
             testProb.append(p1[j])
+            testPred.append(pr1[j])
 
-    return trainData, trainAns, trainProb, testData, testAns, testProb
+    return trainData, trainAns, trainProb, trainPred, testData, testAns, testProb
