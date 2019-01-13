@@ -1,6 +1,6 @@
 library(ggplot2)
 library(reshape2)
-raw <- read.csv("./MNIST_BigMLStealer_3240_result.csv")
+raw <- read.csv("./MNIST_BigMLStealer_3240_result_average.csv")
 head(raw)
 raw.epoch.200 <- raw[raw$epoch == 200,]
 
@@ -25,7 +25,7 @@ draw.melt.testing.learningrate.3 <- draw.melt.testing[draw.melt.testing$learning
 # Drawing for whole training data
 ggplot(draw.melt.training, aes(x=training.size, y=value, color=variable)) + 
   ggtitle("Whole Training Data, DT") +
-  geom_point(size = 0.8) + 
+  geom_point(size = 3) + 
   theme_bw() +
   theme(legend.position="top") +
   theme(legend.background = element_rect(size=0.5, linetype="solid", 
@@ -40,7 +40,7 @@ ggsave("figure/whole_training_DT.png",
 # Drawing for testing data
 ggplot(draw.melt.testing, aes(x=training.size, y=value, color=variable)) + 
   ggtitle("Whole Testing Data, DT") +
-  geom_point(size = 0.8) + 
+  geom_point(size = 3) + 
   theme_bw() +
   theme(legend.position="top")+
   theme(legend.background = element_rect(size=0.5, linetype="solid", 
@@ -55,7 +55,7 @@ ggsave("figure/whole_testing_DT.png",
 # Drawing for whole training data, learning rate 1e-05 
 ggplot(draw.melt.training.learningrate.1, aes(x=training.size, y=value, color=variable)) + 
   ggtitle("Training, DT + learning rate 1e-05") +
-  geom_point(size = 0.8) + 
+  geom_point(size = 3) + 
   theme_bw() +
   theme(legend.position="top")+
   theme(legend.background = element_rect(size=0.5, linetype="solid", 
@@ -70,7 +70,7 @@ ggsave("figure/training_learning_1e-05_DT.png",
 # Drawing for whole training data, learning rate 5e-05 
 ggplot(draw.melt.training.learningrate.2, aes(x=training.size, y=value, color=variable)) + 
   ggtitle("Training, DT + learning rate 5e-05") +
-  geom_point(size = 0.8) + 
+  geom_point(size = 3) + 
   theme_bw() +
   theme(legend.position="top")+
   theme(legend.background = element_rect(size=0.5, linetype="solid", 
@@ -85,7 +85,7 @@ ggsave("figure/training_learning_5e-05_DT.png",
 # Drawing for whole training data, learning rate 1e-04
 ggplot(draw.melt.training.learningrate.3, aes(x=training.size, y=value, color=variable)) + 
   ggtitle("Training, DT + learning rate 1e-04") +
-  geom_point(size = 0.8) + 
+  geom_point(size = 3) + 
   theme_bw() +
   theme(legend.position="top")+
   theme(legend.background = element_rect(size=0.5, linetype="solid", 
@@ -100,7 +100,7 @@ ggsave("figure/training_learning_1e-04_DT.png",
 # Drawing for whole training data, learning rate 1e-05 
 ggplot(draw.melt.testing.learningrate.1, aes(x=training.size, y=value, color=variable)) + 
   ggtitle("Testing, DT + learning rate 1e-05") +
-  geom_point(size = 0.8) + 
+  geom_point(size = 3) + 
   theme_bw() +
   theme(legend.position="top")+
   theme(legend.background = element_rect(size=0.5, linetype="solid", 
@@ -115,7 +115,7 @@ ggsave("figure/testing_learning_1e-05_DT.png",
 # Drawing for whole training data, learning rate 5e-05
 ggplot(draw.melt.testing.learningrate.2, aes(x=training.size, y=value, color=variable)) + 
   ggtitle("Testing, DT + learning rate 5e-05") +
-  geom_point(size = 0.8) + 
+  geom_point(size = 3) + 
   theme_bw() +
   theme(legend.position="top")+
   theme(legend.background = element_rect(size=0.5, linetype="solid", 
@@ -130,7 +130,7 @@ ggsave("figure/testing_learning_5e-05_DT.png",
 # Drawing for whole training data, learning rate 1e-04
 ggplot(draw.melt.testing.learningrate.3, aes(x=training.size, y=value, color=variable)) + 
   ggtitle("Testing, DT + learning rate 1e-04") +
-  geom_point(size = 0.8) + 
+  geom_point(size = 3) + 
   theme_bw() +
   theme(legend.position="top")+
   theme(legend.background = element_rect(size=0.5, linetype="solid", 
@@ -146,7 +146,7 @@ ggsave("figure/testing_learning_1e-04_DT.png",
 
 
 
-raw_deepnet <- read.csv("./MNIST_deepnet_BigMLStealer_3240_result.csv")
+raw_deepnet <- read.csv("./MNIST_deepnet_BigMLStealer_3240_result_average.csv")
 head(raw_deepnet)
 
 raw.epoch.200.deepnet <- raw_deepnet[raw_deepnet$epoch == 200,]
@@ -174,7 +174,7 @@ draw.melt.testing.learningrate.3.deepnet <- draw.melt.testing.deepnet[draw.melt.
 # Drawing for whole training data
 ggplot(draw.melt.training.deepnet, aes(x=training.size, y=value, color=variable)) + 
   ggtitle("Whole Training Data, DN") +
-  geom_point(size = 0.8) + 
+  geom_point(size = 3) + 
   theme_bw() +
   theme(legend.position="top") +
   theme(legend.background = element_rect(size=0.5, linetype="solid", 
@@ -189,7 +189,7 @@ ggsave("figure/whole_training_DN.png",
 # Drawing for testing data
 ggplot(draw.melt.testing.deepnet, aes(x=training.size, y=value, color=variable)) + 
   ggtitle("Whole Testing Data, DN") +
-  geom_point(size = 0.8) + 
+  geom_point(size = 3) + 
   theme_bw() +
   theme(legend.position="top")+
   theme(legend.background = element_rect(size=0.5, linetype="solid", 
@@ -204,7 +204,7 @@ ggsave("figure/whole_testing_DN.png",
 # Drawing for whole training data, learning rate 1e-05 
 ggplot(draw.melt.training.learningrate.1.deepnet, aes(x=training.size, y=value, color=variable)) + 
   ggtitle("Training, DN + learning rate 1e-05") +
-  geom_point(size = 0.8) + 
+  geom_point(size = 3) + 
   theme_bw() +
   theme(legend.position="top")+
   theme(legend.background = element_rect(size=0.5, linetype="solid", 
@@ -219,7 +219,7 @@ ggsave("figure/training_learning_1e-05_DN.png",
 # Drawing for whole training data, learning rate 5e-05 
 ggplot(draw.melt.training.learningrate.2.deepnet, aes(x=training.size, y=value, color=variable)) + 
   ggtitle("Training, DN + learning rate 5e-05") +
-  geom_point(size = 0.8) + 
+  geom_point(size = 3) + 
   theme_bw() +
   theme(legend.position="top")+
   theme(legend.background = element_rect(size=0.5, linetype="solid", 
@@ -234,7 +234,7 @@ ggsave("figure/training_learning_5e-05_DN.png",
 # Drawing for whole training data, learning rate 1e-04
 ggplot(draw.melt.training.learningrate.3.deepnet, aes(x=training.size, y=value, color=variable)) + 
   ggtitle("Training, DN + learning rate 1e-04") +
-  geom_point(size = 0.8) + 
+  geom_point(size = 3) + 
   theme_bw() +
   theme(legend.position="top")+
   theme(legend.background = element_rect(size=0.5, linetype="solid", 
@@ -249,7 +249,7 @@ ggsave("figure/training_learning_1e-04_DN.png",
 # Drawing for whole training data, learning rate 1e-05 
 ggplot(draw.melt.testing.learningrate.1.deepnet, aes(x=training.size, y=value, color=variable)) + 
   ggtitle("Testing, DN + learning rate 1e-05") +
-  geom_point(size = 0.8) + 
+  geom_point(size = 3) + 
   theme_bw() +
   theme(legend.position="top")+
   theme(legend.background = element_rect(size=0.5, linetype="solid", 
@@ -264,7 +264,7 @@ ggsave("figure/testing_learning_1e-05_DN.png",
 # Drawing for whole training data, learning rate 5e-05
 ggplot(draw.melt.testing.learningrate.2.deepnet, aes(x=training.size, y=value, color=variable)) + 
   ggtitle("Testing, DN + learning rate 5e-05") +
-  geom_point(size = 0.8) + 
+  geom_point(size = 3) + 
   theme_bw() +
   theme(legend.position="top")+
   theme(legend.background = element_rect(size=0.5, linetype="solid", 
@@ -279,7 +279,7 @@ ggsave("figure/testing_learning_5e-05_DN.png",
 # Drawing for whole training data, learning rate 1e-04
 ggplot(draw.melt.testing.learningrate.3.deepnet, aes(x=training.size, y=value, color=variable)) + 
   ggtitle("Testing, DN + learning rate 1e-04") +
-  geom_point(size = 0.8) + 
+  geom_point(size = 3) + 
   theme_bw() +
   theme(legend.position="top")+
   theme(legend.background = element_rect(size=0.5, linetype="solid", 
@@ -290,3 +290,4 @@ ggsave("figure/testing_learning_1e-04_DN.png",
        dpi = 300,
        width = 7,
        height = 7)
+
