@@ -290,4 +290,3 @@ ggsave("figure/testing_learning_1e-04_DN.png",
        dpi = 300,
        width = 7,
        height = 7)
-
