@@ -72,4 +72,5 @@ Package requirement : Stealer/requirement.txt
            執行getCsvAverage.py : `python getCsvAverage.py <csv_file_name>`
            在Stealer底下會生成一個結尾為_average.csv的檔案黨儲存結果
 
-
+## 資料視覺化
+1. 執行 R 畫圖，程式位於 'Stealer/drawing.R'

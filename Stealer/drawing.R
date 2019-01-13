@@ -2,7 +2,10 @@ library(ggplot2)
 library(reshape2)
 raw <- read.csv("./MNIST_BigMLStealer_3240_result.csv")
 head(raw)
+raw_deepnet <- read.csv("./MNIST_deepnet_BigMLStealer_3240_result.csv")
+head(raw_deepnet)
 raw.epoch.200 <- raw[raw$epoch == 200,]
+raw.epoch.200.deepnet <- raw_deepnet[raw_deepnet$epoch == 200,]
 head(raw.epoch.200)
 
 ## Whole data for training
