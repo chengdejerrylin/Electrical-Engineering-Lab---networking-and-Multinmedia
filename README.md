@@ -2,7 +2,11 @@
 
 助教可以跳過偷取前準備工作，直接跑我們產生的 MNIST 結果
 
-##環境
+* 影片連結:[click here]() 
+* 海報連結:[click here]()
+* 投影片連結:[click here]()
+
+## 環境
 Python 3.6.7
 Package requirement : Stealer/requirement.txt
 
