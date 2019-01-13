@@ -3,8 +3,8 @@
 助教可以跳過偷取前準備工作，直接跑我們產生的 MNIST 結果
 
 * 影片連結:[click here](https://youtu.be/qnmovkiNusw) 
-* 海報連結:[click here](https://howardchao.github.io/Electrical-Engineering-Lab---networking-and-Multinmedia/final_demo.pdf)
-* 投影片連結:[click here](https://howardchao.github.io/Electrical-Engineering-Lab---networking-and-Multinmedia/poster.pdf)
+* 海報連結:[click here](https://howardchao.github.io/Electrical-Engineering-Lab---networking-and-Multinmedia/poster.pdf)
+* 投影片連結:[click here](https://howardchao.github.io/Electrical-Engineering-Lab---networking-and-Multinmedia/final_demo.pdf)
 
 ## 環境
 Python 3.6.7
