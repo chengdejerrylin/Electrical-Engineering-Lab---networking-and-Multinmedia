@@ -1,4 +1,4 @@
-# 網多期末專題：偷取 ML-as-Service Model
+# 網多期末專題：偷取 ML-as-a-Service Platform Model
 
 助教可以跳過偷取前準備工作，直接跑我們產生的 MNIST 結果
 
