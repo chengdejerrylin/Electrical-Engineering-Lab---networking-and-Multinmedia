@@ -11,10 +11,10 @@ def getAbsPath(path) :
 
 parser = ArgumentParser(description='A program that tries to steal the classification model on BigML.')
 parser.add_argument('data', help='select the database.')
-parser.add_argument('-r', '-ratio',   dest='ratio'    , type=float, default=0.1 , help='traring testing ratio.')
+parser.add_argument('-r', '-ratio',   dest='ratio'    , type=float, default=0.3 , help='traring testing ratio.')
 parser.add_argument('-nb', '-nBatch', dest='nBatch'   , type=int  , default=100 , help='traring batch size.')
 parser.add_argument('-e' , '-epoch' , dest='epoch'    , type=int  , default=200 , help='epoch.')
-parser.add_argument('-lr',            dest='lr'       , type=float, default=1e-4, help='Learning rate.')
+parser.add_argument('-lr',            dest='lr'       , type=float, default=1e-5, help='Learning rate.')
 parser.add_argument('-pPerEpoch',     dest='pPerEpoch', type=int  , default=10  , help='print per epoch.')
 parser.add_argument('-noP',           dest='pDetail'  , action='store_false', help='do not print detail data.')
 parser.add_argument('-loss',          dest='loss'     , default="BCELoss", help='set loss function.')
