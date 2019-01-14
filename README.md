@@ -8,7 +8,9 @@
 
 ## 環境
 Python 3.6.7
-Package requirement : Stealer/requirement.txt
+Package requirement : 
+    * Stealer/requirement.txt
+	* BigML/requirement.txt
 
 ## 偷取前準備
 ### 事前準備：
